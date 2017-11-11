@@ -1,22 +1,88 @@
 language: python
-python:
-    - 2.7
-    - 3.6
+
+matrix:
+    include:
+        # Linux
+        - os: linux
+          python: 2.7
+
+        - os: linux
+          python: 3.6
+
+        # macOX
+        - os: osx
+          language: generic
+          env: PY_VERSION=2.7
+
+        - os: osx
+          language: generic
+          env: PY_VERSION=3.6
 
 before_install:
-    - sudo apt-get -qq update
-    - sudo apt-get install -y
-        libportmidi-dev
-        libsdl-image1.2-dev
-        libsdl-mixer1.2-dev
-        libsdl-ttf2.0-dev
-        libsdl1.2-dev
-        libsoundtouch-dev
-        libvorbis-dev
+    - echo $TRAVIS_OS_NAME
+    - |
+      if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+        sudo apt-get -qq update;
+        sudo apt-get install -y \
+          libportmidi-dev \
+          libsdl-image1.2-dev \
+          libsdl-mixer1.2-dev \
+          libsdl-ttf2.0-dev \
+          libsdl1.2-dev \
+          libsoundtouch-dev \
+          libvorbis-dev
+      elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+        brew update;
+        brew install \
+          glib \
+          libvorbis \
+          portmidi \
+          sdl \
+          sdl_image \
+          sdl_mixer \
+          sdl_ttf;
+        # soundtouch
+        wget https://www.surina.net/soundtouch/soundtouch-2.0.0.zip;
+        unzip soundtouch-2.0.0.zip;
+        cd soundtouch;
+        ./bootstrap;
+        ./configure;
+        make;
+        make install;
+        cd ..;
+      fi
 
 install:
+    - if [[ "$PY_VERSION" == "3.6" ]]; then brew install python3; fi
+    - if [[ "$PY_VERSION" == "3.6" ]]; then pip3 install virtualenv; fi
+    - if [[ "$PY_VERSION" == "3.6" ]]; then python3 -m virtualenv venv; fi
+    - if [[ "$PY_VERSION" == "3.6" ]]; then source venv/bin/activate; fi
+    - python --version
+    - pip --version
+    - pip install --upgrade pip wheel
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then pip install -U py; fi  # for pytest
     - pip install cython
+
+before_script:
+    - python setup.py build_ext --inplace --force
 
 script:
     - python setup.py check
     - python setup.py test
+    - pip install -e .
+    - python -c "from fretwork import mixstream"
+
+after_success:
+    - python setup.py sdist
+    - python setup.py bdist_wheel
+
+deploy:
+  provider: pypi
+  user: Linkid
+  password:
+    secure: hEHwkabyZMR+TVuoOvoqHUaqu5Sb3bBdqua8NsGySf+Dmadbf4Ba2Yc644av0ZSrqbUlgo+DcrFNG/WYo7Hy1amHxfnO4MXDtXk/eO2islo9F23kY0r+PIlvMouRUvKJygkbKrwV6Suy92+WlILgnyRDvMKMWhY0IiU7NExTi31HS2EYA09WcNtJmCdm2lQMMoaece36AcWkxyEu5/IPiW3uSoJp9XchOGN4mrinAFrNdGq64De9q2dGDJB4i1z2vfc46MyK+GStnuosAhIswPFzozQscWZDY2x2DrYqfQ7pTH5im4zgY5k8/8XC6keG/O5AtzKKghBmMCryuSDSL58crWed1sWyqDB0KVMHkPJlYY26a6qGh11f+Y9nLU6jayOaYS6situgSOHZf3zB/sAl1A9Fb0yd6m/Zzz1/9tS4U8pI02/GTaUCfZZgWKQplS3Ux5QWb0H0720SQiy+LmvyPsDkk4XezVzWsTURSXGZD54oZH8Qj0pTf4vHMXZQ62chv6ImJTuZ2aRkZRycv924+8cqNkM3vCrms6ILIjG/tEjCoWSIe4uSa7vbpKO1y1wu0gfbUwXg5v5pxY4ak1Yfo/jfopgd8yYYyrL94VCx7AaEA4b+MTH3R7Flynnb7Qsqy2LfK1jI5GtFn701HvDdAAOEHu8OZH/KjjrJZjM=
+  server: https://test.pypi.org/legacy/
+  distributions: "sdist bdist_wheel"
+  skip_cleanup: true
+  on:
+      branch: travis-osx
