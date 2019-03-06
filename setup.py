@@ -157,7 +157,7 @@ if os.name == 'nt':
     # And glib needs a slight hack to work correctly.
     glib_info['define_macros'].append(('inline', '__inline'))
     # And we use the prebuilt soundtouch-c.
-    soundtouch_info['libraries'].append('soundtouch-c')
+    soundtouch_info['libraries'].insert(0, 'soundtouch-c')
     extra_soundtouch_src = []
 else:
     # And build our own soundtouch-c.
