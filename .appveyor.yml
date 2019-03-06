@@ -128,43 +128,43 @@ install:
     - bash -lc "ln -s C:/msys64/%MSYSTEM_%/bin/libiconv-2.dll C:/msys64/%MSYSTEM_%/bin/iconv.dll"
     - bash -lc "ln -s C:/msys64/%MSYSTEM_%/bin/libSoundTouch-1.dll C:/msys64/%MSYSTEM_%/bin/libSoundTouch-0.dll"
     - bash -lc "ln -s C:/msys64/%MSYSTEM_%/bin/libSDL_mixer-1-2-0.dll C:/msys64/%MSYSTEM_%/bin/SDL_mixer.dll"
-    - bash -lc "ln -s C:/msys64/%MSYSTEM_% C:/projects/Linkid/fretwork/win32/deps"
+    - bash -lc "ln -s C:/msys64/%MSYSTEM_% C:/projects/fretwork/win32/deps"
 
       ## soundtouch-c
       #- bash -lc "%MSYS2_ARCH%-w64-mingw32-pkg-config --cflags glib-2.0 soundtouch"
-    - bash -lc "%MSYS2_ARCH%-w64-mingw32-g++ -g -O2 -W -Wall `%MSYS2_ARCH%-w64-mingw32-pkg-config --cflags glib-2.0 soundtouch` -fexceptions -fno-rtti -c -o soundtouch-c.o C:/projects/Linkid/fretwork/fretwork/mixstream/soundtouch-c.cpp"
+    - bash -lc "%MSYS2_ARCH%-w64-mingw32-g++ -g -O2 -W -Wall `%MSYS2_ARCH%-w64-mingw32-pkg-config --cflags glib-2.0 soundtouch` -fexceptions -fno-rtti -c -o soundtouch-c.o C:/projects/fretwork/fretwork/mixstream/soundtouch-c.cpp"
     - bash -lc "ls"
     - bash -lc "pwd"
-    - bash -lc "rm -rf C:/projects/Linkid/fretwork/win32/deps/lib/soundtouch-c.lib"
-    - bash -lc "%MSYS2_ARCH%-w64-mingw32-gcc-ar cru C:/projects/Linkid/fretwork/win32/deps/lib/soundtouch-c.lib soundtouch-c.o"
-    - bash -lc "%MSYS2_ARCH%-w64-mingw32-gcc-ranlib C:/projects/Linkid/fretwork/win32/deps/lib/soundtouch-c.lib"
-    - bash -lc "rm -rf C:/projects/Linkid/fretwork/win32/deps/lib/soundtouch-c.o"
-    - bash -lc "cp C:/projects/Linkid/fretwork/win32/deps/lib/soundtouch-c.lib C:/msys64/%MSYSTEM_%/lib"
-    - bash -lc "ls C:/projects/Linkid/fretwork/fretwork/mixstream/"
+    - bash -lc "rm -rf C:/projects/fretwork/win32/deps/lib/soundtouch-c.lib"
+    - bash -lc "%MSYS2_ARCH%-w64-mingw32-gcc-ar cru C:/projects/fretwork/win32/deps/lib/soundtouch-c.lib soundtouch-c.o"
+    - bash -lc "%MSYS2_ARCH%-w64-mingw32-gcc-ranlib C:/projects/fretwork/win32/deps/lib/soundtouch-c.lib"
+    - bash -lc "rm -rf C:/projects/fretwork/win32/deps/lib/soundtouch-c.o"
+    - bash -lc "cp C:/projects/fretwork/win32/deps/lib/soundtouch-c.lib C:/msys64/%MSYSTEM_%/lib"
+    - bash -lc "ls C:/projects/fretwork/fretwork/mixstream/"
 
     # debug
-    - bash -lc "ls C:/projects/Linkid/fretwork/win32/deps/lib/"
-    - bash -lc "ls C:/projects/Linkid/fretwork/win32/deps/bin/"
+    - bash -lc "ls C:/projects/fretwork/win32/deps/lib/"
+    - bash -lc "ls C:/projects/fretwork/win32/deps/bin/"
     - "ECHO C:/msys64/%MSYSTEM_%/lib/"
     - bash -lc "ls C:/msys64/%MSYSTEM_%/lib/"
 
     # path
-#    - "SET PATH=C:\\projects\\Linkid\\fretwork\\win32\\deps\\bin;%PATH%"
-#    - "SET PATH=C:\\projects\\Linkid\\fretwork\\win32\\deps\\lib;%PATH%"
+#    - "SET PATH=C:\\projects\\fretwork\\win32\\deps\\bin;%PATH%"
+#    - "SET PATH=C:\\projects\\fretwork\\win32\\deps\\lib;%PATH%"
 
 build_script:
-    - bash -lc "cd C:/projects/Linkid/fretwork && C:/projects/ci-packaging/fretwork/win32/deps/bin/%PYTHON_VERSION% setup.py build_ext --inplace --force"
-    - bash -lc "cd C:/projects/Linkid/fretwork && C:/projects/ci-packaging/fretwork/win32/deps/bin/%PYTHON_VERSION% setup.py sdist"
-    - bash -lc "ls C:/projects/Linkid/fretwork/*"
-    - bash -lc "cd C:/projects/Linkid/fretwork && C:/projects/ci-packaging/fretwork/win32/deps/bin/%PYTHON_VERSION% setup.py bdist_wheel"
+    - bash -lc "cd C:/projects/fretwork && C:/projects/fretwork/win32/deps/bin/%PYTHON_VERSION% setup.py build_ext --inplace --force"
+    - bash -lc "cd C:/projects/fretwork && C:/projects/fretwork/win32/deps/bin/%PYTHON_VERSION% setup.py sdist"
+    - bash -lc "ls C:/projects/fretwork/*"
+    - bash -lc "cd C:/projects/fretwork && C:/projects/fretwork/win32/deps/bin/%PYTHON_VERSION% setup.py bdist_wheel"
 
 #test_script:
-#    - bash -lc "cd C:/projects/Linkid/fretwork && %PYTHON_VERSION% -m pip install dist/*.whl"
-#    - bash -lc "cd C:/projects/Linkid/fretwork && %PYTHON_VERSION% -m pip install dist/fretwork-0.3.0.tar.gz"
-#    - bash -lc "cd C:/projects/Linkid/fretwork && %PYTHON_VERSION% -m pip install pytest"
-#    - bash -lc "cd C:/projects/Linkid/fretwork && rm -rf fretwork"
-#    - bash -lc "cd C:/projects/Linkid/fretwork && pytest tests"
-#    - bash -lc "cd C:/projects/Linkid/fretwork && python -c 'from fretwork.mixstream import *'"
+#    - bash -lc "cd C:/projects/fretwork && %PYTHON_VERSION% -m pip install dist/*.whl"
+#    - bash -lc "cd C:/projects/fretwork && %PYTHON_VERSION% -m pip install dist/fretwork-0.3.0.tar.gz"
+#    - bash -lc "cd C:/projects/fretwork && %PYTHON_VERSION% -m pip install pytest"
+#    - bash -lc "cd C:/projects/fretwork && rm -rf fretwork"
+#    - bash -lc "cd C:/projects/fretwork && pytest tests"
+#    - bash -lc "cd C:/projects/fretwork && python -c 'from fretwork.mixstream import *'"
 
 artifacts:
     - path: dist\*
