@@ -88,7 +88,7 @@ MixStream* mix_stream_new(int samprate, int channels, mix_stream_read_cb read_cb
 
   // Init SDL_mixer
   if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 1024) < 0) {
-      dprintf(2, "Error initializing SDL_mixer: %s\n", Mix_GetError());
+      //dprintf(2, "Error initializing SDL_mixer: %s\n", Mix_GetError());
       g_free(stream);
       return NULL;
   }
