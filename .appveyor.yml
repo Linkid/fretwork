@@ -99,8 +99,6 @@ install:
         automake
         base-devel
         %PKG_PREFIX%-toolchain
-        %PKG_PREFIX%-%PYTHON_VERSION%
-        %PKG_PREFIX%-%PYTHON_VERSION%-pip
         %PKG_PREFIX%-pkg-config
         %PKG_PREFIX%-portmidi
         %PKG_PREFIX%-libvorbis
@@ -116,10 +114,10 @@ install:
 #    - bash -lc "ls C:/msys64/usr/bin/"
 
     # python dependencies
-    - bash -lc "%PYTHON_VERSION% --version"
-    - bash -lc "%PYTHON_VERSION% -m pip install -U pip" # Upgrade pip
-    - bash -lc "%PYTHON_VERSION% -m pip install wheel"
-    - bash -lc "%PYTHON_VERSION% -m pip install cython"
+    - bash -lc "%PYTHON%\\python.exe --version"
+    - bash -lc "%PYTHON%\\python.exe -m pip install -U pip" # Upgrade pip
+    - bash -lc "%PYTHON%\\python.exe -m pip install wheel"
+    - bash -lc "%PYTHON%\\python.exe -m pip install cython"
 
     # git submodule
     - "git submodule update --init --recursive"
@@ -153,10 +151,10 @@ install:
 #    - "SET PATH=C:\\projects\\fretwork\\win32\\deps\\lib;%PATH%"
 
 build_script:
-    - bash -lc "cd C:/projects/fretwork && C:/projects/fretwork/win32/deps/bin/%PYTHON_VERSION% setup.py build_ext --inplace --force"
-    - bash -lc "cd C:/projects/fretwork && C:/projects/fretwork/win32/deps/bin/%PYTHON_VERSION% setup.py sdist"
+    - bash -lc "cd C:/projects/fretwork && %PYTHON%\\python.exe setup.py build_ext --inplace --force"
+    - bash -lc "cd C:/projects/fretwork && %PYTHON%\\python.exe setup.py sdist"
     - bash -lc "ls C:/projects/fretwork/*"
-    - bash -lc "cd C:/projects/fretwork && C:/projects/fretwork/win32/deps/bin/%PYTHON_VERSION% setup.py bdist_wheel"
+    - bash -lc "cd C:/projects/fretwork && %PYTHON%\\python.exe setup.py bdist_wheel"
 
 test_script:
 #    - bash -lc "cd C:/projects/fretwork && %PYTHON_VERSION% -m pip install dist/*.whl"
