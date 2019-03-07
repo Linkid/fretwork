@@ -159,12 +159,12 @@ build_script:
     - bash -lc "cd C:/projects/fretwork && C:/projects/fretwork/win32/deps/bin/%PYTHON_VERSION% setup.py bdist_wheel"
 
 test_script:
-    - bash -lc "cd C:/projects/fretwork && %PYTHON_VERSION% -m pip install dist/*.whl"
+#    - bash -lc "cd C:/projects/fretwork && %PYTHON_VERSION% -m pip install dist/*.whl"
 #    - bash -lc "cd C:/projects/fretwork && %PYTHON_VERSION% -m pip install dist/fretwork-0.3.0.tar.gz"
-    - bash -lc "cd C:/projects/fretwork && %PYTHON_VERSION% -m pip install pytest"
-    - bash -lc "cd C:/projects/fretwork && rm -rf fretwork"
-    - bash -lc "cd C:/projects/fretwork && pytest tests"
-    - bash -lc "cd C:/projects/fretwork && python -c 'from fretwork.mixstream import *'"
+#    - bash -lc "cd C:/projects/fretwork && %PYTHON_VERSION% -m pip install pytest"
+#    - bash -lc "cd C:/projects/fretwork && rm -rf fretwork"
+#    - bash -lc "cd C:/projects/fretwork && pytest tests"
+#    - bash -lc "cd C:/projects/fretwork && python -c 'from fretwork.mixstream import *'"
 
 artifacts:
     - path: dist\*
