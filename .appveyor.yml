@@ -152,7 +152,7 @@ install:
     - bash -lc "ln -s C:/msys64/%MSYSTEM_%/bin/libiconv-2.dll C:/msys64/%MSYSTEM_%/bin/iconv.dll"
     - bash -lc "ln -s C:/msys64/%MSYSTEM_%/bin/libSoundTouch-1.dll C:/msys64/%MSYSTEM_%/bin/libSoundTouch-0.dll"
     - bash -lc "ln -s C:/msys64/%MSYSTEM_%/bin/libSDL_mixer-1-2-0.dll C:/msys64/%MSYSTEM_%/bin/SDL_mixer.dll"
-    - bash -lc "ln -s C:/msys64/%MSYSTEM_%/include/sdl/SDL_config.h.default C:/msys64/%MSYSTEM_%/include/sdl/SDL_config.h"
+    - bash -lc "cp C:/msys64/%MSYSTEM_%/include/sdl/SDL_config.h.default C:/msys64/%MSYSTEM_%/include/sdl/SDL_config.h"
     - bash -lc "ln -s C:/msys64/%MSYSTEM_% C:/projects/fretwork/win32/deps"
 
       ## soundtouch-c
