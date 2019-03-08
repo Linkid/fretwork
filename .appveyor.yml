@@ -7,36 +7,40 @@ environment:
         # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
         # /E:ON and /V:ON options are not enabled in the batch script intepreter
         # See: http://stackoverflow.com/a/13751649/163740
-        #WITH_COMPILER: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_compiler.cmd"
+        WITH_COMPILER: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_compiler.cmd"
 
     matrix:
         - MSYS2_ARCH: i686
           MSYSTEM: MINGW32
           MSYSTEM_: mingw32
           PKG_PREFIX: "mingw-w64-i686"
-          PYTHON: "C:/Python27"
-          PYTHON_VERSION: "python2"
+          PYTHON: "C:\\Python27"
+          PYTHON_VERSION: "2.7.10"
+          PYTHON_ARCH: "i686"
 
         - MSYS2_ARCH: x86_64
           MSYSTEM: MINGW64
           MSYSTEM_: mingw64
           PKG_PREFIX: "mingw-w64-x86_64"
-          PYTHON: "C:/Python27-x64"
-          PYTHON_VERSION: "python2"
+          PYTHON: "C:\\Python27-x64"
+          PYTHON_VERSION: "2.7.10"
+          PYTHON_ARCH: "64"
 
         - MSYS2_ARCH: i686
           MSYSTEM: MINGW32
           MSYSTEM_: mingw32
           PKG_PREFIX: "mingw-w64-i686"
-          PYTHON: "C:/Python36"
-          PYTHON_VERSION: "python3"
+          PYTHON: "C:\\Python36"
+          PYTHON_VERSION: "3.6.x"
+          PYTHON_ARCH: "i686"
 
         - MSYS2_ARCH: x86_64
           MSYSTEM: MINGW64
           MSYSTEM_: mingw64
           PKG_PREFIX: "mingw-w64-x86_64"
-          PYTHON: "C:/Python36-x64"
-          PYTHON_VERSION: "python3"
+          PYTHON: "C:\\Python36-x64"
+          PYTHON_VERSION: "3.6.x"
+          PYTHON_ARCH: "64"
 
 #        - PYTHON: "C:\\Python27"
 #          PYTHON_ARCH: 32
@@ -89,6 +93,28 @@ install:
     # Soundtouch 2.0.0
     # https://www.surina.net/soundtouch/soundtouch_dll-2.0.0.zip
 
+    # If there is a newer build queued for the same PR, cancel this one.
+    # The AppVeyor 'rollout builds' option is supposed to serve the same
+    # purpose but it is problematic because it tends to cancel builds pushed
+    # directly to master instead of just PR builds (or the converse).
+    # credits: JuliaLang developers.
+    - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
+          https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
+          Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
+              throw "There are newer queued builds for this pull request, failing early." }
+
+    - ECHO "Installed SDKs:"
+    - ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
+
+    # Install Python (from the official .msi of https://python.org) and pip when
+    # not already installed.
+    - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\\install.ps1 }
+
+    # Prepend newly installed Python to the PATH of this build (this cannot be
+    # done from inside the powershell script as it would require to restart
+    # the parent CMD process).
+    - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+
 
     # system dependencies
     - "echo %PKG_PREFIX%"
@@ -114,10 +140,10 @@ install:
 #    - bash -lc "ls C:/msys64/usr/bin/"
 
     # python dependencies
-    - bash -lc "%PYTHON%/python.exe --version"
-    - bash -lc "%PYTHON%/python.exe -m pip install -U pip" # Upgrade pip
-    - bash -lc "%PYTHON%/python.exe -m pip install wheel"
-    - bash -lc "%PYTHON%/python.exe -m pip install cython"
+    - "python --version"
+    - "python -m pip install -U pip" # Upgrade pip
+    - "python -m pip install wheel"
+    - "python -m pip install cython"
 
     # git submodule
     - "git submodule update --init --recursive"
@@ -151,10 +177,10 @@ install:
 #    - "SET PATH=C:\\projects\\fretwork\\win32\\deps\\lib;%PATH%"
 
 build_script:
-    - bash -lc "cd C:/projects/fretwork && %PYTHON%/python.exe setup.py build_ext --inplace --force"
-    - bash -lc "cd C:/projects/fretwork && %PYTHON%/python.exe setup.py sdist"
+    - bash -lc "cd C:/projects/fretwork && python.exe setup.py build_ext --inplace --force"
+    - bash -lc "cd C:/projects/fretwork && python.exe setup.py sdist"
     - bash -lc "ls C:/projects/fretwork/*"
-    - bash -lc "cd C:/projects/fretwork && %PYTHON%/python.exe setup.py bdist_wheel"
+    - bash -lc "cd C:/projects/fretwork && python.exe setup.py bdist_wheel"
 
 test_script:
 #    - bash -lc "cd C:/projects/fretwork && %PYTHON_VERSION% -m pip install dist/*.whl"
