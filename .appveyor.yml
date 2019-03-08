@@ -142,8 +142,8 @@ install:
     # python dependencies
     - "python --version"
     - "python -m pip install -U pip" # Upgrade pip
-    - "python -m pip install wheel"
-    - "python -m pip install cython"
+    - "%CMD_IN_ENV% python -m pip install wheel"
+    - "%CMD_IN_ENV% python -m pip install cython"
 
     # git submodule
     - "git submodule update --init --recursive"
@@ -177,10 +177,10 @@ install:
 #    - "SET PATH=C:\\projects\\fretwork\\win32\\deps\\lib;%PATH%"
 
 build_script:
-    - bash -lc "cd C:/projects/fretwork && python.exe setup.py build_ext --inplace --force"
-    - bash -lc "cd C:/projects/fretwork && python.exe setup.py sdist"
+    - bash -lc "cd C:/projects/fretwork && %CMD_IN_ENV% python setup.py build_ext --inplace --force"
+    - bash -lc "cd C:/projects/fretwork && %CMD_IN_ENV% python setup.py sdist"
     - bash -lc "ls C:/projects/fretwork/*"
-    - bash -lc "cd C:/projects/fretwork && python.exe setup.py bdist_wheel"
+    - bash -lc "cd C:/projects/fretwork && %CMD_IN_ENV% python setup.py bdist_wheel"
 
 test_script:
 #    - bash -lc "cd C:/projects/fretwork && %PYTHON_VERSION% -m pip install dist/*.whl"
