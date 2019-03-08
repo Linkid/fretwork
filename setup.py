@@ -147,10 +147,10 @@ else:
     lib_blacklist = []
 
 
+glib_info = pc_info('glib-2.0')
 vorbisfile_info = pc_info('vorbisfile')
 sdl_info = pc_info('sdl')
 sdl_mixer_info = pc_info('SDL_mixer')
-glib_info = pc_info('glib-2.0')
 gthread_info = pc_info('gthread-2.0')
 soundtouch_info = pc_info('soundtouch', ['soundtouch-1.4', 'soundtouch-1.0'])
 if os.name == 'nt':
