@@ -23,6 +23,7 @@
 #include "soundtouch-c.h"
 #include <SDL_mixer.h>
 #include <SDL.h>
+#include <stdio.h>
 
 #define FRAMES_PER_CHUNK 4096
 
