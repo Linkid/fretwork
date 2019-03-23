@@ -57,23 +57,20 @@ static GStaticMutex chan_table_mutex = G_STATIC_MUTEX_INIT;
 
 static void _mix_stream_soundtouchify(MixStream* stream);
 
-int fdprintf(int fd, size_t bufmax, const char *fmt, ...)
+int fdprintf(int fd, const char *fmt, ...)
 {
-  char * buffer;
-  int n;
-  va_list ap;
-
-  buffer = ( char * ) malloc ( bufmax );
-  if ( !buffer )
-    return 0;
-
-  va_start ( ap, fmt );
-  n = vsnprintf ( buffer, bufmax, fmt, ap );
-  va_end ( ap );
-
-  write ( fd, buffer, n );
-  free ( buffer );
-  return n;
+    int cc;
+    va_list args;
+    va_start(args, fmt);
+    int len   = _vscprintf(fmt,args) + 1;
+    char* buffer = new char[len];
+    buffer[len] = 0;
+    if ((cc = vsprintf_s(buffer, len-1, fmt, args)) > 0) {
+        write(fd, buffer, cc);
+    }
+    va_end(args);
+    delete[] buffer;
+    return cc;
 }
 
 
