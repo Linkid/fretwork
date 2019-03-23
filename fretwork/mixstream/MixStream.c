@@ -23,7 +23,6 @@
 #include "soundtouch-c.h"
 #include <SDL_mixer.h>
 #include <SDL.h>
-#include <stdio.h>
 
 #define FRAMES_PER_CHUNK 4096
 
@@ -58,6 +57,25 @@ static GStaticMutex chan_table_mutex = G_STATIC_MUTEX_INIT;
 
 static void _mix_stream_soundtouchify(MixStream* stream);
 
+int fdprintf(int fd, size_t bufmax, const char *fmt, ...)
+{
+  char * buffer;
+  int n;
+  va_list ap;
+
+  buffer = ( char * ) malloc ( bufmax );
+  if ( !buffer )
+    return 0;
+
+  va_start ( ap, fmt );
+  n = vsnprintf ( buffer, bufmax, fmt, ap );
+  va_end ( ap );
+
+  write ( fd, buffer, n );
+  free ( buffer );
+  return n;
+}
+
 
 /* Create a stream that will play data returned by read_cb.
  *   - samprate and channels specify the format returned by read_cb
@@ -89,7 +107,7 @@ MixStream* mix_stream_new(int samprate, int channels, mix_stream_read_cb read_cb
 
   // Init SDL_mixer
   if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 1024) < 0) {
-      dprintf(2, "Error initializing SDL_mixer: %s\n", Mix_GetError());
+      fdprintf(2, "Error initializing SDL_mixer: %s\n", Mix_GetError());
       g_free(stream);
       return NULL;
   }
