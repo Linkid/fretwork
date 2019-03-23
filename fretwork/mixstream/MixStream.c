@@ -63,7 +63,7 @@ int fdprintf(int fd, const char *fmt, ...)
     FILE *f = fdopen(fd, "r");
     int rc;
 
-    va_start(ap, &fmt);
+    va_start(ap, fmt);
     rc = vfprintf(f, fmt, ap);
     fclose(f);
     va_end(ap);
