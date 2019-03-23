@@ -59,18 +59,15 @@ static void _mix_stream_soundtouchify(MixStream* stream);
 
 int fdprintf(int fd, const char *fmt, ...)
 {
-    int cc;
-    va_list args;
-    va_start(args, fmt);
-    int len   = _vscprintf(fmt,args) + 1;
-    char* buffer = new char[len];
-    buffer[len] = 0;
-    if ((cc = vsprintf_s(buffer, len-1, fmt, args)) > 0) {
-        write(fd, buffer, cc);
-    }
-    va_end(args);
-    delete[] buffer;
-    return cc;
+    va_list ap;
+    FILE *f = fdopen(fd, "r");
+    int rc;
+
+    va_start(ap, &fmt);
+    rc = vfprintf(f, fmt, ap);
+    fclose(f);
+    va_end(ap);
+    return rc;
 }
 
 
