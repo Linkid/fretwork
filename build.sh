@@ -54,6 +54,7 @@ case ${operating_system} in
         echo $PKG_CONFIG_PATH
         export PKG_CONFIG_PATH=/usr/local/Cellar/libvorbis/1.3.7/lib/pkgconfig:${PKG_CONFIG_PATH}
         echo $PKG_CONFIG_PATH
+        pkg-config --libs --cflags vorbisfile
     ;;
     *)
         echo "[*] no OS: " ${operating_system}
