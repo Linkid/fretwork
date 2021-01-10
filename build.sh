@@ -50,8 +50,9 @@ case ${operating_system} in
         brew ls libvorbis
         which pkg-config
         ls -l $(which pkg-config)
-        brew link pkg-config
-        #export PKG_CONFIG_PATH=/usr/local/Cellar/
+        brew unlink pkg-config && brew link pkg-config
+        echo $PKG_CONFIG_PATH
+        export PKG_CONFIG_PATH=/usr/local/Cellar/:${PKG_CONFIG_PATH}
     ;;
     *)
         echo "[*] no OS: " ${operating_system}
