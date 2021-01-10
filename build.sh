@@ -30,7 +30,6 @@ case ${operating_system} in
         echo "MacOS…"
         brew update --quiet > /dev/null
         brew install --quiet \
-            glib \
             libvorbis \
             portmidi \
             sdl \
