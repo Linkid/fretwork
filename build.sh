@@ -1,9 +1,11 @@
 #!/bin/bash
 
+echo $1
 operating_system=$(echo "$1" | tr '[:upper:]' '[:lower:]')
 
 case ${operating_system} in
     "linux")
+        echo "Linux…"
         if [[ `arch` == 'i686' ]]
         then
             basearch=i386
@@ -25,6 +27,7 @@ case ${operating_system} in
             libvorbis-devel
     ;;
     "macos")
+        echo "MacOS…"
         brew update --quiet > /dev/null
         brew install --quiet \
             glib \
