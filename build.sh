@@ -29,6 +29,7 @@ case ${operating_system} in
     "macos")
         echo "MacOS…"
         brew update --quiet > /dev/null
+        brew reinstall pkg-config
         brew install --quiet \
             libvorbis \
             portmidi \
@@ -45,6 +46,10 @@ case ${operating_system} in
         make;
         make install;
         cd ..;
+
+        brew ls libvorbis
+        which pkg-config
+        ls -l $(which pkg-config)
     ;;
     *)
         echo "[*] no OS: " ${operating_system}
