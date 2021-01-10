@@ -1,0 +1,23 @@
+environment:
+  CIBW_BUILD: cp27-* cp36-* cp37-* cp38-*
+
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      APPVEYOR_JOB_NAME: "python37-x64-ubuntu"
+      CIBW_BEFORE_BUILD: "{package}/build.sh linux"
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+      APPVEYOR_JOB_NAME: "python37-x64-macos-mojave"
+      CIBW_BEFORE_BUILD: "{package}/build.sh macos"
+
+stack: python 3.7
+
+init:
+- cmd: set PATH=C:\Python37;C:\Python37\Scripts;%PATH%
+
+install: python -m pip install cibuildwheel==1.7.4
+
+build_script: python -m cibuildwheel --output-dir wheelhouse
+
+artifacts:
+  - path: "wheelhouse\\*.whl"
+    name: Wheels
