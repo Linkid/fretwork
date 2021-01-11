@@ -7,7 +7,7 @@ environment:
     #  CIBW_BEFORE_BUILD: "bash {package}/build.sh linux"
     - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
       APPVEYOR_JOB_NAME: "python37-x64-macos-mojave"
-      CIBW_BEFORE_BUILD: "bash {package}/build.sh macos"
+      CIBW_BEFORE_BUILD: "bash {package}/build.sh macos && echo $PKG_CONFIG_PATH"
 
 stack: python 3.7
 
