@@ -50,9 +50,11 @@ case ${operating_system} in
         brew ls libogg
         which pkg-config
         ls -l $(which pkg-config)
-        export PKG_CONFIG_PATH=/usr/local/Cellar/libvorbis/1.3.7/lib/pkgconfig:/usr/local/Cellar/libogg/1.3.4/lib/pkgconfig:${PKG_CONFIG_PATH}
+        cp -rp /usr/local/Cellar/libvorbis/1.3.7/lib/pkgconfig /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig
+        cp -rp /usr/local/Cellar/libogg/1.3.4/lib/pkgconfig /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig
         echo $PKG_CONFIG_PATH
         ls -l /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig
+
         pkg-config --libs --cflags vorbisfile
     ;;
     *)
