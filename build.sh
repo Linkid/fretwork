@@ -47,12 +47,13 @@ case ${operating_system} in
         #cd ..;
 
         brew ls libvorbis
+        ls /usr/local/Cellar/libvorbis/1.3.7/lib/pkgconfig/
         which pkg-config
         ls -l $(which pkg-config)
         #brew unlink pkg-config && brew link pkg-config
         echo $PKG_CONFIG_PATH
-        #export PKG_CONFIG_PATH=/usr/local/Cellar/libvorbis/1.3.7/lib/pkgconfig:${PKG_CONFIG_PATH}
-        #echo $PKG_CONFIG_PATH
+        export PKG_CONFIG_PATH=/usr/local/Cellar/libvorbis/1.3.7/lib/pkgconfig:${PKG_CONFIG_PATH}
+        echo $PKG_CONFIG_PATH
         pkg-config --libs --cflags vorbisfile
     ;;
     *)
