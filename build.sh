@@ -37,14 +37,14 @@ case ${operating_system} in
             sdl_mixer \
             sdl_ttf \
             wget;
-        #wget https://www.surina.net/soundtouch/soundtouch-2.0.0.zip;
-        #unzip soundtouch-2.0.0.zip;
-        #cd soundtouch;
-        #./bootstrap;
-        #./configure;
-        #make;
-        #make install;
-        #cd ..;
+        wget https://www.surina.net/soundtouch/soundtouch-2.0.0.zip;
+        unzip soundtouch-2.0.0.zip;
+        cd soundtouch;
+        ./bootstrap;
+        ./configure;
+        make;
+        make install;
+        cd ..;
 
         echo "which pkg-config:" `which pkg-config`
         echo "copy"
