@@ -56,7 +56,9 @@ case ${operating_system} in
         echo "copy"
         cp -rp /usr/local/Cellar/libvorbis/1.3.7/lib/pkgconfig/* /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig/
         cp -rp /usr/local/Cellar/libogg/1.3.4/lib/pkgconfig/* /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig/
-        cp -rp /usr/local/Cellar/libogg/1.2.15/lib/pkgconfig/* /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig/
+        cp -rp /usr/local/Cellar/sdl/1.2.15_3/lib/pkgconfig/* /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig/
+        cp -rp /usr/local/Cellar/sdl_image/1.2.12_7/lib/pkgconfig/* /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig/
+        cp -rp /usr/local/Cellar/sdl_mixer/1.2.12_4/lib/pkgconfig/* /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig/
         echo $PKG_CONFIG_PATH
         echo "list pkgconfig files"
         ls -l /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig
