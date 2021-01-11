@@ -50,11 +50,14 @@ case ${operating_system} in
         brew ls libogg
         echo "which pkg-config:" `which pkg-config`
         echo "copy"
-        cp -rp /usr/local/Cellar/libvorbis/1.3.7/lib/pkgconfig /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig
-        cp -rp /usr/local/Cellar/libogg/1.3.4/lib/pkgconfig /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig
+        cp -rp /usr/local/Cellar/libvorbis/1.3.7/lib/pkgconfig/* /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig/
+        cp -rp /usr/local/Cellar/libogg/1.3.4/lib/pkgconfig/* /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig/
         echo $PKG_CONFIG_PATH
         echo "list pkgconfig files"
         ls -l /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig
+        echo "list pkgconfig files in path"
+        ls -l /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig
+        echo "ok"
 
         pkg-config --libs --cflags vorbisfile
     ;;
