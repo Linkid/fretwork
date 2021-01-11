@@ -47,13 +47,12 @@ case ${operating_system} in
         #cd ..;
 
         brew ls libvorbis
-        ls /usr/local/Cellar/libvorbis/1.3.7/lib/pkgconfig/
+        brew ls ogg
         which pkg-config
-        ls -l $(which pkg-config)
-        #brew unlink pkg-config && brew link pkg-config
+        ls -l $(which pkg-config)/
+        export PKG_CONFIG_PATH=/usr/local/Cellar/libvorbis/1.3.7/lib/pkgconfig:/usr/local/Cellar/libogg/1.3.4/lib/pkgconfig:${PKG_CONFIG_PATH}
         echo $PKG_CONFIG_PATH
-        export PKG_CONFIG_PATH=/usr/local/Cellar/libvorbis/1.3.7/lib/pkgconfig:${PKG_CONFIG_PATH}
-        echo $PKG_CONFIG_PATH
+        ls -l /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig
         pkg-config --libs --cflags vorbisfile
     ;;
     *)
