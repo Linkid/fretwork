@@ -36,15 +36,7 @@ case ${operating_system} in
             sdl_image \
             sdl_mixer \
             sdl_ttf \
-            wget;
-        wget https://www.surina.net/soundtouch/soundtouch-2.0.0.zip;
-        unzip soundtouch-2.0.0.zip;
-        cd soundtouch;
-        ./bootstrap;
-        ./configure;
-        make;
-        make install;
-        cd ..;
+            sound-touch;
 
         echo "which pkg-config:" `which pkg-config`
         echo "copy"
@@ -53,6 +45,7 @@ case ${operating_system} in
         cp -rp /usr/local/Cellar/sdl/1.2.15_3/lib/pkgconfig/* /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig/
         cp -rp /usr/local/Cellar/sdl_image/1.2.12_7/lib/pkgconfig/* /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig/
         cp -rp /usr/local/Cellar/sdl_mixer/1.2.12_4/lib/pkgconfig/* /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig/
+        cp -rp /usr/local/Cellar/sound-touch/2.2/lib/pkgconfig/* /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig/
         echo $PKG_CONFIG_PATH
         echo "list pkgconfig files"
         ls -l /Users/appveyor/.gvm/pkgsets/go1.15.6/global/overlay/lib/pkgconfig
