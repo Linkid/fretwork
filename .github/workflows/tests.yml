@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10']
+        python-version: ['3.10']
         experimental: [false]
 
     steps:
@@ -25,18 +25,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Install os dependencies
-        run: |
-          sudo apt-get -qq update
-          sudo apt-get install -yq \
-            libportmidi-dev \
-            libsdl2-image-dev \
-            libsdl2-mixer-dev \
-            libsdl2-ttf-dev \
-            libsdl2-dev \
-            libsoundtouch-dev \
-            libvorbis-dev
 
       - name: Install python dependencies
         run: |
@@ -50,10 +38,10 @@ jobs:
         env:
           SDL_AUDIODRIVER: dummy
 
-      - name: Upload coverage
-        if: ${{ matrix.python-version == '3.7' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          pip install coveralls
-          coveralls --service=github
+      #- name: Upload coverage
+      #  if: ${{ matrix.python-version == '3.7' }}
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #  run: |
+      #    pip install coveralls
+      #    coveralls --service=github
